@@ -32,4 +32,13 @@ public class StructureStorage {
     public Stack<Flat> getCollection() {
         return collection;
     }
+    public static boolean removeFlat(Integer id){
+        for (Flat flat : collection) {
+            if (Objects.equals(flat.getId(), id)){
+                flat.markForDeletion();
+                collection.remove(flat);
+                return true;
+            }
+        } return false;
+    }
 }

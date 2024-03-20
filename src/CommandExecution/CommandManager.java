@@ -11,6 +11,7 @@ public class CommandManager {
         addCommand("info", BasicCommands::getInfo);
         addCommand("show", BasicCommands::show);
         addCommand("add", BasicCommands::add);
+        addCommand("sort", BasicCommands::sort);
         addCommand("update", BasicCommands::update);
         addCommand("remove_by_id", BasicCommands::remove_by_id);
         addCommand("save", BasicCommands::save);

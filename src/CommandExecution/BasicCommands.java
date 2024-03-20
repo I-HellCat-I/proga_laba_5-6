@@ -6,10 +6,13 @@ import Enums.Transport;
 import Enums.View;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class BasicCommands {
+import static Classes.StructureStorage.removeFlat;
+
+class BasicCommands {
     static StructureStorage flats = Context.getStructureStorage();
     public static void getHelp(String[] s){
         System.out.println("help : вывести справку по доступным командам\n" +
@@ -62,7 +65,7 @@ public class BasicCommands {
         catch (NumberFormatException e) {
             System.out.println("Неверный формат Id (Не целое число)");
             return;
-        } removeFlat(id);
+        } if (!removeFlat(id)) System.out.println("Квартиры с таким Id не найдено, ничего не удалено");
     }
     public static void clear(String[] s){
         Flat.clearIndicator();
@@ -94,21 +97,28 @@ public class BasicCommands {
         flats.getCollection().pop().markForDeletion();
     }
     public static void sum_of_number_of_rooms(String[] s){
+        System.out.println(flats.getCollection().stream().mapToInt(Flat::getNumberOfRooms).sum());
+    }
+
+    public static void sort(String[] s){
         flats.sort();
     }
     public static void count_less_than_furnish(String[] s){
-        System.out.println(countRooms());
+        int amount = Integer.parseInt(s[0]);
+        int res = 0;
+        for (Flat f: flats.getCollection()){
+            if (f.getFurnish().getAmount() < amount) res++;
+        }
+        System.out.println(res);
     }
     public static void print_unique_house(String[] s){
-        int am;
-        try {
-            am = Integer.parseInt(s[1]);
+        ArrayList<House> toPrint = new ArrayList<>();
+        for (Flat f: flats.getCollection()){
+            if (!toPrint.contains(f.getHouse())){
+                toPrint.add(f.getHouse());
+            }
         }
-        catch (NumberFormatException e) {
-            System.out.println("Неверный формат Id (Не целое число)");
-            return;
-        }
-        System.out.println(countLTFurnish(am));
+        toPrint.forEach(System.out::println);
     }
     private static Flat inputFlat(Flat toUpdate){
         String name; //Поле не может быть null, Строка не может быть пустой
@@ -167,26 +177,5 @@ public class BasicCommands {
             return null;
         }
         return new Flat(name, coordinates, area, numberOfRooms, furnish, view, transport, house);
-    }
-    private static void removeFlat(Integer id){
-        for (Flat flat : flats.getCollection()) {
-            if (Objects.equals(flat.getId(), id)){
-                flat.markForDeletion();
-                flats.getCollection().remove(flat);
-                break;
-            }
-        }
-        System.out.println("Квартиры с таким Id не найдено, ничего не удалено");
-    }
-
-    private static int countRooms(){
-        return flats.getCollection().stream().mapToInt(Flat::getNumberOfRooms).sum();
-    }
-    private static int countLTFurnish(int amount){
-        int res = 0;
-        for (Flat f: flats.getCollection()){
-            if (f.getFurnish().getAmount() < amount) res++;
-        }
-        return res;
     }
 }
