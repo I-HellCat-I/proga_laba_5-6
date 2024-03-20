@@ -10,11 +10,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
-import static Classes.StructureStorage.removeFlat;
 
-class BasicCommands {
+public class BasicCommands {
     static StructureStorage flats = Context.getStructureStorage();
-    public static void getHelp(String[] s){
+    public static void get_help(String[] s){
         System.out.println("help : вывести справку по доступным командам\n" +
                 "info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)\n" +
                 "show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении\n" +
@@ -32,7 +31,7 @@ class BasicCommands {
                 "count_less_than_furnish furnish : вывести количество элементов, значение поля furnish которых меньше заданного\n" +
                 "print_unique_house : вывести уникальные значения поля house всех элементов в коллекции");
     }
-    public static void getInfo(String[] s){
+    public static void get_info(String[] s){
         System.out.println(flats.getClass() + " " + Context.getInitDate() + " " + flats.getCollection().size());
     }
     public static void show(String[] s){
@@ -57,15 +56,15 @@ class BasicCommands {
         System.out.println("Квартиры с таким Id не найдено, ничего обновляться не будет");
     }
 
-    public static void remove_by_id(String[] s){
+    public static String remove_by_id(String[] s){
         Integer id;
         try {
             id = Integer.parseInt(s[1]);
         }
         catch (NumberFormatException e) {
-            System.out.println("Неверный формат Id (Не целое число)");
-            return;
-        } if (!removeFlat(id)) System.out.println("Квартиры с таким Id не найдено, ничего не удалено");
+            return ("Неверный формат Id (Не целое число)");
+        } if (!Context.getStructureStorage().removeFlatById(id)) return ("Квартиры с таким Id не найдено, ничего не удалено");
+        return "Ok";
     }
     public static void clear(String[] s){
         Flat.clearIndicator();
@@ -91,10 +90,10 @@ class BasicCommands {
         Interactor.executeScript(s[1]);
     }
     public static void remove_at(String[] s){
-        flats.getCollection().remove(Integer.parseInt(s[1])).markForDeletion();
+        flats.getCollection();
     }
     public static void remove_last(String[] s){
-        flats.getCollection().pop().markForDeletion();
+        flats.removeLastFlat();
     }
     public static void sum_of_number_of_rooms(String[] s){
         System.out.println(flats.getCollection().stream().mapToInt(Flat::getNumberOfRooms).sum());
@@ -120,7 +119,7 @@ class BasicCommands {
         }
         toPrint.forEach(System.out::println);
     }
-    private static Flat inputFlat(Flat toUpdate){
+    public static Flat inputFlat(Flat toUpdate){
         String name; //Поле не может быть null, Строка не может быть пустой
         Coordinates coordinates;
         float x;

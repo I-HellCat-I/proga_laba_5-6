@@ -16,19 +16,19 @@ public class Interactor {
         String[] words = input.split(" ");
         String[] args = words.length > 1 ? new String[words.length-1]:null;
         if (args != null) System.arraycopy(words, 1, args, 0, words.length - 1);
-        CommandManager.exec(new Command(words[0], args));
+        System.out.println(CommandManager.exec(words[0], args));
     }
-    public static void executeScript(String filename) {
+    public static String executeScript(String filename) {
         try (BufferedInputStream inStream = new BufferedInputStream(new FileInputStream(filename))) {
             Scanner sc = new Scanner(inStream);
             while (sc.hasNext()){
                 processInput(sc.next());
             }
         }  catch (FileNotFoundException exc) {
-            System.out.println("Ваш файл не найден, введите имя существующего файла");
-            return;
+            return ("Ваш файл не найден, введите имя существующего файла");
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            return (e.getMessage());
         }
+        return "Done.\n";
     }
 }

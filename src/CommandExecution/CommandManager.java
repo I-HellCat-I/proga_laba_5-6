@@ -1,34 +1,47 @@
 package CommandExecution;
 
+import CommandExecution.Commands.*;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class CommandManager {
-    static HashMap<String, Consumer<String[]>> commands = new HashMap<>();
+    static HashMap<String, Class<? extends Command>> commands = new HashMap<>();
 
     static {
-        addCommand("help", BasicCommands::getHelp);
-        addCommand("info", BasicCommands::getInfo);
-        addCommand("show", BasicCommands::show);
-        addCommand("add", BasicCommands::add);
-        addCommand("sort", BasicCommands::sort);
-        addCommand("update", BasicCommands::update);
-        addCommand("remove_by_id", BasicCommands::remove_by_id);
-        addCommand("save", BasicCommands::save);
-        addCommand("clear", BasicCommands::clear);
-        addCommand("remove_at", BasicCommands::remove_at);
-        addCommand("remove_last", BasicCommands::remove_last);
-        addCommand("count_less_than_furnish", BasicCommands::count_less_than_furnish);
-        addCommand("remove_by_id", BasicCommands::remove_by_id);
-        addCommand("execute_script", BasicCommands::execute_script);
-        addCommand("sum_of_number_of_rooms", BasicCommands::sum_of_number_of_rooms);
-        addCommand("print_unique_house", BasicCommands::print_unique_house);
+        addCommand("help", CommandHelp.class);
+        addCommand("info", CommandInfo.class);
+        addCommand("show", CommandShow.class);
+        addCommand("add", CommandAdd.class);
+        addCommand("sort", CommandSort.class);
+        addCommand("update", CommandUpdate.class);
+        addCommand("remove_by_id", CommandRemoveById.class);
+        addCommand("save", CommandSave.class);
+        addCommand("clear", CommandClear.class);
+        addCommand("remove_at", CommandRemoveAt.class);
+        addCommand("remove_last", CommandRemoveLast.class);
+        addCommand("count_less_than_furnish", CommandCountLTFurnish.class);
+        addCommand("remove_by_id", CommandRemoveById.class);
+        addCommand("execute_script", CommandExecuteScript.class);
+        addCommand("sum_of_number_of_rooms", CommandSumOfNumberOfRooms.class);
+        addCommand("print_unique_house", CommandPrintUniqueHouse.class);
+        addCommand("exit", CommandExit.class);
     } // adding basic commands
 
-    public static void addCommand(String s, Consumer<String[]> f){
+    public static void addCommand(String s, Class<? extends Command> f){
         commands.put(s, f);
     }
-    public static void exec(Command c){ // Когда дойдёт до 6 лабы, мб сделаю очередь команд, пока это не особо нужно
-        commands.get(c.type()).accept(c.args());
+    public static String exec(String type, String[] args){ // Когда дойдёт до 6 лабы, мб сделаю очередь команд, пока это не особо нужно
+        try {
+            return ((Command) commands.get(type).getEnclosingConstructor().newInstance(args)).execute();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static HashMap<String, Class<? extends Command>> getCommands(){
+        return commands;
     }
 }

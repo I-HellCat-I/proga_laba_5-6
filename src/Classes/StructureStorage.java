@@ -32,7 +32,7 @@ public class StructureStorage {
     public Stack<Flat> getCollection() {
         return collection;
     }
-    public static boolean removeFlat(Integer id){
+    public boolean removeFlatById(Integer id){
         for (Flat flat : collection) {
             if (Objects.equals(flat.getId(), id)){
                 flat.markForDeletion();
@@ -40,5 +40,56 @@ public class StructureStorage {
                 return true;
             }
         } return false;
+    }
+    public boolean removeLastFlat(){
+        collection.pop();
+        return true;
+    }
+    public boolean removeFlatAt(int pos){
+        collection.remove(pos).markForDeletion();
+        return true;
+    }
+    public boolean addFlat(Flat f){
+        collection.add(f);
+        return true;
+    }
+    public int getSize() {
+        return collection.size();
+    }
+    public Flat getFlatById(int id) {
+        Flat ans = null;
+        for (Flat flat : collection) {
+            if (Objects.equals(flat.getId(), id)){
+                ans = flat;
+                break;
+            }
+        }
+        return ans;
+    }
+    public void clearCollection() {
+        collection.clear();
+    }
+    public int getNumberOfRoomsSum(){
+        int cnt = 0;
+        for (Flat f : collection){
+            cnt += f.getNumberOfRooms();
+        }
+        return cnt;
+    }
+    public int countLTFurnish(int amount) {
+        int res = 0;
+        for (Flat f : collection) {
+            if (f.getFurnish().getAmount() < amount) res++;
+        }
+        return res;
+    }
+    public ArrayList<House> getUniqueHouse(){
+        ArrayList<House> ans = new ArrayList<>();
+        for (Flat f: collection){
+            if (!ans.contains(f.getHouse())){
+                ans.add(f.getHouse());
+            }
+        }
+        return ans;
     }
 }

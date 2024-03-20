@@ -6,6 +6,7 @@ import jdk.jfr.DataAmount;
 import java.io.InputStream;
 import java.time.ZonedDateTime;
 import java.util.*;
+import com.fasterxml.jackson.dataformat.xml.*;
 
 public class Flat implements Comparable<Flat> {
     private final Integer id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
