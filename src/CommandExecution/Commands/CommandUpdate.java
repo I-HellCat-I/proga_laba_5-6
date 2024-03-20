@@ -6,7 +6,7 @@ import CommandExecution.Command;
 
 import java.util.Objects;
 
-import static CommandExecution.BasicCommands.inputFlat;
+import static CommandExecution.Interactor.inputFlat;
 
 public class CommandUpdate extends Command {
     public CommandUpdate(String[] args) {

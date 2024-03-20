@@ -36,8 +36,8 @@ public class CommandManager {
     }
     public static String exec(String type, String[] args){ // Когда дойдёт до 6 лабы, мб сделаю очередь команд, пока это не особо нужно
         try {
-            return ((Command) commands.get(type).getEnclosingConstructor().newInstance(args)).execute();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            return (commands.get(type).getConstructor(String[].class).newInstance((Object) (args==null? new String[]{""} :args))).execute();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

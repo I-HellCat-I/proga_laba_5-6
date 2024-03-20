@@ -15,8 +15,10 @@ public class CommandHelp extends Command {
         StringBuilder res = new StringBuilder();
         CommandManager.getCommands().forEach((s, c) -> {
             try {
-                res.append(c.getMethod("toString", null).invoke(null) + "\n");
-            } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+                res.append(c.getMethod("toString", null)
+                        .invoke(c.getConstructor(String[].class).newInstance((Object) new String[]{""})) + "\n");
+            } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException |
+                     InstantiationException e) {
                 throw new RuntimeException(e);
             }
         });

@@ -4,7 +4,7 @@ import Classes.Context;
 import Classes.Flat;
 import CommandExecution.Command;
 
-import static CommandExecution.BasicCommands.inputFlat;
+import static CommandExecution.Interactor.inputFlat;
 
 public class CommandAdd extends Command {
     public CommandAdd(String[] args) {
@@ -22,6 +22,6 @@ public class CommandAdd extends Command {
     }
     @Override
     public String toString() {
-        return "add {element} : добавить новый элемент в коллекцию\n";
+        return "add {element} : добавить новый элемент в коллекцию";
     }
 }
