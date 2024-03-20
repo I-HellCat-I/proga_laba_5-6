@@ -1,15 +1,7 @@
-import Classes.Flat;
-import Classes.Interactor;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.lang.ref.Reference;
-import java.util.Arrays;
+import CommandExecution.Interactor;
+
 import java.util.Objects;
 import java.util.Scanner;
-import static java.lang.System.exit;
-import static java.lang.System.in;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
