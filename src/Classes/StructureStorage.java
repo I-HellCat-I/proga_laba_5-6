@@ -1,5 +1,7 @@
 package Classes;
 
+import CommandExecution.FileManager;
+
 import java.io.*;
 import java.util.*;
 
@@ -21,12 +23,8 @@ public class StructureStorage {
         }
     }
 
-    public void load(String env) { //todo: Getting filepath from Environment variables
-        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(System.getenv(env)))) { // todo: BufferedInputStream ahahahahha
-            collection.addAll((Collection<? extends Flat>) Flat.StXMLParser.parseFlats(bis, new Stack<>()));
-        } catch (Exception e) {
-            System.out.println(e.getMessage() + " " + Arrays.toString(e.getStackTrace()));
-        }
+    public void load() { //todo: Getting filepath from Environment variables
+        collection.addAll((Collection<? extends Flat>) FileManager.loadCollection());
     }
 
     public Stack<Flat> getCollection() {

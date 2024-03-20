@@ -5,7 +5,7 @@ import java.time.ZonedDateTime;
 public final class Context {
     private static final StructureStorage structureStorage = new StructureStorage();
     static {
-        structureStorage.load(getPathVar());
+        structureStorage.load();
     }
     private static final ZonedDateTime initDate = ZonedDateTime.now();
     public static StructureStorage getStructureStorage() {

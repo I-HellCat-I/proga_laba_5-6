@@ -28,12 +28,13 @@ public class FileManager {
             return false;
         }
     }
-    public static boolean loadCollection(){
+    public static Stack<Flat> loadCollection(){
+        Stack<Flat> a = null;
         try {
-            mapper.readValue(new File(Context.getPathVar()), Stack.class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            a = mapper.readValue(new File(Context.getPathVar()), Stack.class);
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        return true;
+        return a;
     }
 }

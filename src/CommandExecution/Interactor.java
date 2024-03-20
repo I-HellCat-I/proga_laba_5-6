@@ -51,7 +51,7 @@ public class Interactor {
         Integer numberOfLifts;
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println();
+        System.out.println("Введите название квартиры:");
         name = scanner.next();
         if (name.contains("<") || name.contains(">")){
             System.out.println("Название содержит запрещённые символы: < >");

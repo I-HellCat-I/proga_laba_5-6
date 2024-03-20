@@ -1,3 +1,4 @@
+import Classes.Context;
 import CommandExecution.Interactor;
 
 import java.util.Objects;
@@ -9,7 +10,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-
+        Context.getInitDate();
         Interactor interactor = new Interactor();
 //        byte[] bytes = new byte[100];
 //        StringBuffer stringBuffer;
