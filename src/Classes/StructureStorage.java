@@ -1,7 +1,5 @@
 package Classes;
 
-import CommandExecution.FileManager;
-
 import java.io.*;
 import java.util.*;
 
@@ -9,21 +7,12 @@ import java.util.*;
 public class StructureStorage {
     protected static Stack<Flat> collection = new Stack<>();
 
-
     public synchronized void sort() {
         collection.sort(null);
     }
 
-    public boolean save(String filename) throws FileNotFoundException {
-        try (PrintWriter pw = new PrintWriter(filename)) {
-            pw.println("<StoreStack>");
-            collection.forEach(pw::print);
-            pw.print("</StoreStack>");
-            return true;
-        }
-    }
 
-    public void load() { //todo: Getting filepath from Environment variables
+    public void load() {
         try {
             collection.addAll((Collection<? extends Flat>) FileManager.loadCollection());
         } catch (NullPointerException e){
@@ -57,8 +46,7 @@ public class StructureStorage {
     }
 
     public boolean addFlat(Flat f) {
-        collection.add(f);
-        return true;
+        return collection.add(f);
     }
 
     public int getSize() {

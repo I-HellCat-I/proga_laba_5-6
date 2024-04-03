@@ -3,6 +3,37 @@ package Classes;
 import java.util.Objects;
 
 public class House {
+    House() {
+
+    }
+
+    public House(String name, int year, long numberOfFlatsOnFloor, Integer numberOfLifts) {
+        if (!(0 < year && year <= 630))
+            throw new IllegalArgumentException("Year должен быть между 0 и 630, а он: " + year);
+        if (numberOfFlatsOnFloor < 0) throw new IllegalArgumentException("numberOfFlatsOnFloor должен быть больше 0");
+        if (numberOfLifts < 0) throw new IllegalArgumentException("numberOfLifts должен быть больше 0");
+        this.name = name;
+        this.year = year;
+        this.numberOfLifts = numberOfLifts;
+        this.numberOfFlatsOnFloor = numberOfFlatsOnFloor;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public long getNumberOfFlatsOnFloor() {
+        return numberOfFlatsOnFloor;
+    }
+
+    public Integer getNumberOfLifts() {
+        return numberOfLifts;
+    }
+
     private static class HouseStorage {
 
     }
@@ -12,16 +43,6 @@ public class House {
     private long numberOfFlatsOnFloor; //Значение поля должно быть больше 0
     private Integer numberOfLifts; //Значение поля должно быть больше 0
 
-    public House(String name, int year, long numberOfFlatsOnFloor, Integer numberOfLifts) {
-        if (!(0 < year && year <= 630))
-            throw new IllegalArgumentException("Year must be between 0 and 630 and it is " + year);
-        if (numberOfFlatsOnFloor < 0) throw new IllegalArgumentException("numberOfFlatsOnFloor must be greater than 0");
-        if (numberOfLifts < 0) throw new IllegalArgumentException("numberOfLifts must be greater than 0");
-        this.name = name;
-        this.year = year;
-        this.numberOfLifts = numberOfLifts;
-        this.numberOfFlatsOnFloor = numberOfFlatsOnFloor;
-    }
 
     @Override
     public boolean equals(Object o) {

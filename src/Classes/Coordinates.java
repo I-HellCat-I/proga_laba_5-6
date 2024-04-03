@@ -6,10 +6,14 @@ public class Coordinates {
     private float x; //Значение поля должно быть больше -146
     private Integer y; //Максимальное значение поля: 185, Поле не может быть null
 
+    Coordinates(){
+
+    }
+
     public Coordinates(float x, Integer y) {
-        if (x <= -146) throw new IllegalArgumentException("x cannot be lower than -146");
-        if (y == null) throw new NullPointerException("y is null");
-        if (y > 185) throw new IllegalArgumentException("y cannot be greater than 185");
+        if (x <= -146) throw new IllegalArgumentException("x не может быть меньше чем -146");
+        if (y == null) throw new NullPointerException("y не дожно быть null");
+        if (y > 185) throw new IllegalArgumentException("y не может быть больше чем 185");
         this.x = x;
         this.y = y;
     }

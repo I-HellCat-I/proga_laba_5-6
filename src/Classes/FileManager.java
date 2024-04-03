@@ -1,4 +1,4 @@
-package CommandExecution;
+package Classes;
 
 import Classes.Context;
 import Classes.Flat;
@@ -7,15 +7,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.*;
 import java.util.Stack;
 
 public class FileManager {
-    private static final XmlMapper mapper = new XmlMapper();
-    static {
-        mapper.findAndRegisterModules();
-    }
+    private static final XmlMapper mapper = XmlMapper.builder().findAndAddModules().build();
 
     public static boolean saveCollection() {
         String toWrite;
@@ -33,12 +31,16 @@ public class FileManager {
     }
 
     public static Stack<Flat> loadCollection() {
-        Stack<Flat> a = null;
+        Stack<Flat> loaded = null;
+        mapper.registerModule(new JavaTimeModule());
         try {
-            a = mapper.readValue(new File(Context.getPathVar()), new TypeReference<Stack<Flat>>() {});
+            loaded = mapper.readValue(new File(Context.getPathVar()), new TypeReference<Stack<Flat>>() {});
+            for (Flat f: loaded){
+                f.addLoadedId();
+            }
         } catch (Exception e) {
             System.out.println(e);
         }
-        return a;
+        return loaded;
     }
 }

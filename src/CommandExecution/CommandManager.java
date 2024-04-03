@@ -29,7 +29,7 @@ public class CommandManager {
         addCommand("sum_of_number_of_rooms", CommandSumOfNumberOfRooms.class);
         addCommand("print_unique_house", CommandPrintUniqueHouse.class);
         addCommand("exit", CommandExit.class);
-    } // adding basic commands
+    } // Базовые команды
 
     public static void addCommand(String s, Class<? extends Command> f) {
         commands.put(s, f);

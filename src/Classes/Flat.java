@@ -1,6 +1,8 @@
 package Classes;
 
 import Enums.*;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import java.io.InputStream;
 import java.time.ZonedDateTime;
@@ -10,7 +12,8 @@ public class Flat implements Comparable<Flat> {
     private final Integer id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
-    private java.time.ZonedDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
+    @JacksonXmlProperty(isAttribute = false, localName = "creationDate")
+    private ZonedDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
     private double area; //Значение поля должно быть больше 0
     private Integer numberOfRooms; //Значение поля должно быть больше 0
     private Furnish furnish; //Поле не может быть null
@@ -18,8 +21,11 @@ public class Flat implements Comparable<Flat> {
     private Transport transport; //Поле не может быть null
     private House house; //Поле не может быть null
 
-    public Flat() { // Used for testing purposes
-        this("1", new Coordinates(0.1F, 2), 0.1, 1, Furnish.NONE, View.TERRIBLE, Transport.NONE, new House("1", 1, 1, 1));
+    public Flat(boolean b) { // Used for testing purposes
+        this("2", new Coordinates(0.1F, 2), 0.2, 3, Furnish.NONE, View.TERRIBLE, Transport.NONE, new House("4", 5, 6, 7));
+    }
+    Flat(){
+        id = null;
     }
 
     private static class IdGenerator {
@@ -70,7 +76,7 @@ public class Flat implements Comparable<Flat> {
     public Flat(String name, Coordinates coordinates, double area, Integer numberOfRooms, Furnish furnish, View view, Transport transport, House house) {
         checkIfRight(name, coordinates, area, numberOfRooms, furnish, view, transport, house);
         id = IdGenerator.generateId();
-        creationDate = java.time.ZonedDateTime.now();
+        creationDate = ZonedDateTime.now();
         update(name, coordinates, area, numberOfRooms, furnish, view, transport, house);
     }
 
@@ -205,5 +211,13 @@ public class Flat implements Comparable<Flat> {
                 "\t\t<Transport>" + transport + "</Transport>\n" +
                 house + "\n" +
                 "\t</Flat>";
+    }
+
+    void addLoadedId(){
+        IdGenerator.onPartlyLoaded(this.id);
+    }
+
+    static void finishLoadingIds(){
+        IdGenerator.onFullyLoaded();
     }
 }
