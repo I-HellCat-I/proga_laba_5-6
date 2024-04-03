@@ -8,7 +8,7 @@ public enum Furnish {
     Furnish(int amount) {
         this.amount = amount;
     }
-    public int getAmount(){
+    public int getAmount() {
         return amount;
     }
 

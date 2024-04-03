@@ -1,5 +1,9 @@
 import Classes.Context;
+import Classes.Flat;
 import CommandExecution.Interactor;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import java.util.Objects;
 import java.util.Scanner;
@@ -9,24 +13,13 @@ import java.util.Scanner;
 public class Main {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws JsonProcessingException {
         Context.getInitDate();
         Interactor interactor = new Interactor();
-//        byte[] bytes = new byte[100];
-//        StringBuffer stringBuffer;
-//        try (BufferedInputStream inStream = new BufferedInputStream(new FileInputStream("C:\\Users\\user\\IdeaProjects\\proga_laba_5-6\\src\\prikol.txt"))) {
-//            //int amm = inStream.read(bytes);
-//            Scanner scanner = new Scanner(inStream);
-//            scanner.nextLine();
-//            stringBuffer = new StringBuffer(new String(bytes));
-//
-//            System.out.println(stringBuffer.toString().split("\n")[2]);
-//        }  catch (FileNotFoundException exc) {
-//            System.out.println("Ваш файл не найден, введите имя существующего файла");
-//            return;
-//        } catch (IOException ignored) {
-//        }
-//        exit(0);
+        Flat f = new Flat();
+        XmlMapper mapper = new XmlMapper();
+        String testxml = mapper.writeValueAsString(f);
+        mapper.readValue(testxml, new TypeReference<Flat>() {});
         String input = "";
         Scanner scanner = new Scanner(System.in);
         while (!Objects.equals(input, "exit")){

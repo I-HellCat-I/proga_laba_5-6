@@ -15,6 +15,7 @@ public class CommandShow extends Command {
         Context.getStructureStorage().getCollection().forEach(ans::append);
         return ans.toString();
     }
+
     @Override
     public String toString() {
         return "show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении";

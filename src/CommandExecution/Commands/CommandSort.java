@@ -7,6 +7,7 @@ public class CommandSort extends Command {
     public CommandSort(String[] args) {
         super(args);
     }
+
     @Override
     public String execute() {
         Context.getStructureStorage().sort();

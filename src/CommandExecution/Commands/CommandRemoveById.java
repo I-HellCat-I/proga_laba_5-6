@@ -13,10 +13,11 @@ public class CommandRemoveById extends Command {
         Integer id;
         try {
             id = Integer.parseInt(args[0]);
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return ("Неверный формат Id (Не целое число)");
-        } if (!Context.getStructureStorage().removeFlatById(id)) return ("Квартиры с таким Id не найдено, ничего не удалено");
+        }
+        if (!Context.getStructureStorage().removeFlatById(id))
+            return ("Квартиры с таким Id не найдено, ничего не удалено");
         return "Ok";
     }
 

@@ -20,6 +20,7 @@ public class CommandAdd extends Command {
         }
         return ("Что-то пошло не так, но что же?");
     }
+
     @Override
     public String toString() {
         return "add {element} : добавить новый элемент в коллекцию";

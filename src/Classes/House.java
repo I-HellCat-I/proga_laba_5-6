@@ -3,16 +3,18 @@ package Classes;
 import java.util.Objects;
 
 public class House {
-    private static class HouseStorage{
+    private static class HouseStorage {
 
     }
+
     private String name; //Поле может быть null
     private int year; //Максимальное значение поля: 630, Значение поля должно быть больше 0
     private long numberOfFlatsOnFloor; //Значение поля должно быть больше 0
     private Integer numberOfLifts; //Значение поля должно быть больше 0
 
-    public House(String name, int year, long numberOfFlatsOnFloor, Integer numberOfLifts){
-        if (!(0<year&&year <=630)) throw new IllegalArgumentException("Year must be between 0 and 630 and it is " + year);
+    public House(String name, int year, long numberOfFlatsOnFloor, Integer numberOfLifts) {
+        if (!(0 < year && year <= 630))
+            throw new IllegalArgumentException("Year must be between 0 and 630 and it is " + year);
         if (numberOfFlatsOnFloor < 0) throw new IllegalArgumentException("numberOfFlatsOnFloor must be greater than 0");
         if (numberOfLifts < 0) throw new IllegalArgumentException("numberOfLifts must be greater than 0");
         this.name = name;

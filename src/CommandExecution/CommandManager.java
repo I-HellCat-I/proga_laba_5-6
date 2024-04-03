@@ -31,17 +31,20 @@ public class CommandManager {
         addCommand("exit", CommandExit.class);
     } // adding basic commands
 
-    public static void addCommand(String s, Class<? extends Command> f){
+    public static void addCommand(String s, Class<? extends Command> f) {
         commands.put(s, f);
     }
-    public static String exec(String type, String[] args){ // Когда дойдёт до 6 лабы, мб сделаю очередь команд, пока это не особо нужно
+
+    public static String exec(String type, String[] args) { // Когда дойдёт до 6 лабы, мб сделаю очередь команд, пока это не особо нужно
         try {
-            return (commands.get(type).getConstructor(String[].class).newInstance((Object) (args==null? new String[]{""} :args))).execute();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            return (commands.get(type).getConstructor(String[].class).newInstance((Object) (args == null ? new String[]{""} : args))).execute();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
-    public static HashMap<String, Class<? extends Command>> getCommands(){
+
+    public static HashMap<String, Class<? extends Command>> getCommands() {
         return commands;
     }
 }

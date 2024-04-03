@@ -10,8 +10,8 @@ public class CommandCountLTFurnish extends Command {
 
     @Override
     public String execute() {
-        int amm = Integer.parseInt(args[0]);
-        return String.valueOf(Context.getStructureStorage().countLTFurnish(amm));
+        int amount = Integer.parseInt(args[0]);
+        return String.valueOf(Context.getStructureStorage().countLTFurnish(amount));
     }
 
     @Override

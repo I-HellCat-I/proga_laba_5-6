@@ -17,7 +17,7 @@ public class CommandUpdate extends Command {
     public String execute() {
         int id = Integer.parseInt(args[0]);
         Flat toUpdate = Context.getStructureStorage().getFlatById(id);
-        if (toUpdate == null){
+        if (toUpdate == null) {
             return ("Квартиры с таким Id не найдено, ничего обновляться не будет");
         }
         inputFlat(toUpdate);

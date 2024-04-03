@@ -10,12 +10,12 @@ public class StructureStorage {
     protected static Stack<Flat> collection = new Stack<>();
 
 
-    public synchronized void sort(){
+    public synchronized void sort() {
         collection.sort(null);
     }
 
     public boolean save(String filename) throws FileNotFoundException {
-        try (PrintWriter pw = new PrintWriter(filename)){
+        try (PrintWriter pw = new PrintWriter(filename)) {
             pw.println("<StoreStack>");
             collection.forEach(pw::print);
             pw.print("</StoreStack>");
@@ -24,56 +24,70 @@ public class StructureStorage {
     }
 
     public void load() { //todo: Getting filepath from Environment variables
-        collection.addAll((Collection<? extends Flat>) FileManager.loadCollection());
+        try {
+            collection.addAll((Collection<? extends Flat>) FileManager.loadCollection());
+        } catch (NullPointerException e){
+            // ignore
+        }
     }
 
     public Stack<Flat> getCollection() {
         return collection;
     }
-    public boolean removeFlatById(Integer id){
+
+    public boolean removeFlatById(Integer id) {
         for (Flat flat : collection) {
-            if (Objects.equals(flat.getId(), id)){
+            if (Objects.equals(flat.getId(), id)) {
                 flat.markForDeletion();
                 collection.remove(flat);
                 return true;
             }
-        } return false;
+        }
+        return false;
     }
-    public boolean removeLastFlat(){
+
+    public boolean removeLastFlat() {
         collection.pop();
         return true;
     }
-    public boolean removeFlatAt(int pos){
+
+    public boolean removeFlatAt(int pos) {
         collection.remove(pos).markForDeletion();
         return true;
     }
-    public boolean addFlat(Flat f){
+
+    public boolean addFlat(Flat f) {
         collection.add(f);
         return true;
     }
+
     public int getSize() {
         return collection.size();
     }
+
     public Flat getFlatById(int id) {
         Flat ans = null;
         for (Flat flat : collection) {
-            if (Objects.equals(flat.getId(), id)){
+            if (Objects.equals(flat.getId(), id)) {
                 ans = flat;
                 break;
             }
         }
         return ans;
     }
+
     public void clearCollection() {
         collection.clear();
     }
-    public int getNumberOfRoomsSum(){
+
+    public int getNumberOfRoomsSum() {
         int cnt = 0;
-        for (Flat f : collection){
+        for (Flat f : collection) {
             cnt += f.getNumberOfRooms();
         }
         return cnt;
     }
+
     public int countLTFurnish(int amount) {
         int res = 0;
         for (Flat f : collection) {
@@ -81,10 +95,11 @@ public class StructureStorage {
         }
         return res;
     }
-    public ArrayList<House> getUniqueHouse(){
+
+    public ArrayList<House> getUniqueHouse() {
         ArrayList<House> ans = new ArrayList<>();
-        for (Flat f: collection){
-            if (!ans.contains(f.getHouse())){
+        for (Flat f : collection) {
+            if (!ans.contains(f.getHouse())) {
                 ans.add(f.getHouse());
             }
         }
