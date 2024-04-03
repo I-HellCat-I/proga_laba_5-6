@@ -1,5 +1,6 @@
 package CommandExecution;
 
+import Classes.Context;
 import Classes.Coordinates;
 import Classes.Flat;
 import Classes.House;
@@ -17,6 +18,8 @@ import java.util.stream.Stream;
 
 public class Interactor {
     private static Scanner scanner = new Scanner(System.in);
+    private static int nowRecursion = 0;
+    private static Stack<Scanner> scannerStack = new Stack<>();
     public static void processInput(String input) {
         String[] words = input.split(" ");
         String[] args = words.length > 1 ? new String[words.length - 1] : null;
@@ -25,6 +28,11 @@ public class Interactor {
     }
 
     public static String executeScript(String filename) {
+        if (nowRecursion > Context.getMaxRecursionDepth()){
+            System.out.println("Вы превысили максимальную допустимую глубину рекурсии " + Context.getMaxRecursionDepth());
+        }
+        nowRecursion++;
+        scannerStack.add(scanner);
         try (BufferedInputStream inStream = new BufferedInputStream(new FileInputStream(filename))) {
             scanner = new Scanner(inStream);
             while (scanner.hasNext()) {
@@ -34,7 +42,8 @@ public class Interactor {
             return ("Ваш файл не найден, введите имя существующего файла");
         } catch (IOException e) {
             return (e.getMessage());
-        } scanner = new Scanner(System.in);
+        } nowRecursion--;
+        scanner = scannerStack.pop();
         return "Done.\n";
     }
 

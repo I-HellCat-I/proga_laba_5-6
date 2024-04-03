@@ -79,7 +79,7 @@ public class StructureStorage {
     public int countLTFurnish(int amount) {
         int res = 0;
         for (Flat f : collection) {
-            if (f.getFurnish().getAmount() < amount) res++;
+            if (f.getFurnish().ordinal() < amount) res++;
         }
         return res;
     }
