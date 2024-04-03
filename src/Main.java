@@ -17,7 +17,6 @@ public class Main {
     public static void main(String[] args) throws JsonProcessingException {
         Context.getInitDate();
         Interactor interactor = new Interactor();
-        Furnish f = Furnish.valueOfInt(1);
         String input = "";
         Scanner scanner = new Scanner(System.in);
         while (!Objects.equals(input, "exit")){
