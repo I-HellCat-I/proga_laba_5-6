@@ -1,10 +1,10 @@
 package CommandExecution;
 
-
+/**
+ * База для всех команд.
+ */
 public abstract class Command {
-    /**
-     * База для всех команд.
-     */
+
     protected String[] args;
 
     public Command(String[] args) {

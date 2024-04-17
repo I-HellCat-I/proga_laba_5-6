@@ -4,11 +4,12 @@ import java.io.*;
 import java.lang.ref.Cleaner;
 import java.util.*;
 
-
+/**
+ * Класс, отвечающий за работу с коллекцией.
+ * Сохраняется автоматически почти всегда (Не сохранится, если выйти через exit)
+ */
 public class StructureStorage implements Cleaner.Cleanable {
-    /**
-     * Класс, отвечающий за работу с коллекцией.
-     */
+
     protected static Stack<Flat> collection = new Stack<>();
 
     public synchronized void sort() {
@@ -110,7 +111,10 @@ public class StructureStorage implements Cleaner.Cleanable {
     }
 
 
-    private final Runnable onCleanRunnable = new Runnable() {  // Прикол, благодаря которому, коллекция сохранится в случае неожиданностей (В т.ч. ctrl+c)
+    private final Runnable onCleanRunnable = new Runnable() {
+        /**
+         Прикол, благодаря которому, коллекция сохранится в случае неожиданностей (В т.ч. ctrl+c)
+         */
         @Override
         public void run() {
             clean();

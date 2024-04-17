@@ -8,11 +8,12 @@ import java.io.InputStream;
 import java.time.ZonedDateTime;
 import java.util.*;
 
+/**
+ * Квартира из ТЗ.
+ * Сравнивается между собой по именам без учёта регистра.
+ */
 public class Flat implements Comparable<Flat> {
-    /**
-     * Квартира из ТЗ.
-     * Сравнивается между собой по именам без учёта регистра.
-     */
+
     private final Integer id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
@@ -29,14 +30,18 @@ public class Flat implements Comparable<Flat> {
         this("2", new Coordinates(0.1F, 2), 0.2, 3, Furnish.NONE, View.TERRIBLE, Transport.NONE, new House("4", 5, 6, 7));
     }
 
+    /**
+     * Для jackson. Не стоит использовать в других случаях
+     */
     Flat() {
         id = null;
     }
 
+    /**
+     * Генератор Id для Flat'ов. В случае загрузки файла, загруженные Id не будет использовать для выдачи новым Flat'ам
+     */
     private static class IdGenerator {
-        /**
-         * Генератор Id для Flat'ов. В случае загрузки файла, загруженные Id не будет использовать для выдачи новым Flat'ам
-         */
+
         private static int next_id = 1;
         private static ArrayDeque<Integer> missingIds = new ArrayDeque<>();
         private static HashSet<Integer> loadedIds = new HashSet<>();

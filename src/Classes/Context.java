@@ -3,10 +3,11 @@ package Classes;
 import java.lang.ref.Cleaner;
 import java.time.ZonedDateTime;
 
+/**
+ * Общий контекст, содержит ссылки на переменные, используемые в разных частях программы, ибо мне лень их передавать
+ **/
 public final class Context {
-    /**
-     * Общий контекст, содержит ссылки на переменные, используемые в разных частях программы, ибо мне лень их передавать
-     **/
+
     private static final StructureStorage structureStorage = new StructureStorage();
 
     static {
@@ -34,7 +35,7 @@ public final class Context {
     }
 
     public static String getPath() {
-        return System.getenv(pathVar)+"/saved.xml";
+        return System.getenv(pathVar) + "/saved.xml";
     }
 
     public static int getMaxRecursionDepth() {

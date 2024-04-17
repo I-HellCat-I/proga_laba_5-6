@@ -7,13 +7,17 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.function.Function;
-
+/**
+ * Класс, отвечающий за обработку команд
+ *
+ */
 public class CommandManager {
-    /**
-     * Класс, отвечающий за обработку команд
-     */
+
     static HashMap<String, Class<? extends Command>> commands = new HashMap<>(); // Хранит в себе команды
 
+    /*
+      Блок, задающий базовые команды
+      */
     static {
         addCommand("help", CommandHelp.class);
         addCommand("info", CommandInfo.class);
@@ -32,7 +36,7 @@ public class CommandManager {
         addCommand("sum_of_number_of_rooms", CommandSumOfNumberOfRooms.class);
         addCommand("print_unique_house", CommandPrintUniqueHouse.class);
         addCommand("exit", CommandExit.class);
-    } // Базовые команды
+    }
 
     public static void addCommand(String s, Class<? extends Command> f) {
         commands.put(s, f);

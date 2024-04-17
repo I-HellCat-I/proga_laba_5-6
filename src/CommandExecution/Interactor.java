@@ -9,22 +9,25 @@ import Enums.Transport;
 import Enums.View;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Scanner;
-import java.util.Stack;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * Класс, отвечающий за обработку пользовательского ввода.
+ */
 public class Interactor {
-    /**
-     * Класс, отвечающий за обработку пользовательского ввода
-     */
+
     private static Scanner scanner = new Scanner(System.in);
     private static int nowRecursion = 0;
     private static Stack<Scanner> scannerStack = new Stack<>();
+    private static TreeSet<String> executingFilenames = new TreeSet<>();
 
-    public static void masterProcessInput(String input) { // Костыль, который убирает проблемы с рекурсией
+    /**
+     * Костыль, который убирает проблемы с рекурсией
+     * @param input Строка, которая подаётся на обработку
+     */
+    public static void masterProcessInput(String input) { //
         try {
             processInput(input);
         } catch (RuntimeException e) {
@@ -35,7 +38,10 @@ public class Interactor {
         }
     }
 
-    static void processInput(String input) { // Базовый обработчик ввода, скидывает обработанную команду менеждеру команд
+    /**
+     * Базовый обработчик ввода, скидывает обработанную команду менеждеру команд
+     */
+    static void processInput(String input) {
         String[] words = input.trim().split(" ");
         String[] args = words.length > 1 ? new String[words.length - 1] : null;
         if (args != null) System.arraycopy(words, 1, args, 0, words.length - 1);
@@ -46,7 +52,13 @@ public class Interactor {
         }
     }
 
-    public static String executeScript(String filename) {  // Читает и обрабатывает скрипты.
+    /**
+     * Читает и обрабатывает скрипты.
+     */
+    public static String executeScript(String filename) {
+        if (executingFilenames.contains(filename)) {
+            throw new RuntimeException("Файлы ссылаются друг на друга");
+        }
         if (nowRecursion > Context.getMaxRecursionDepth()) {
             throw new RuntimeException("Вы превысили максимальную допустимую глубину рекурсии: " + Context.getMaxRecursionDepth());
         }

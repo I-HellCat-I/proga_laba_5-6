@@ -8,13 +8,16 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.*;
 import java.util.Arrays;
 import java.util.Stack;
-
+/**
+ * Класс, который отвечает за загрузку и сохранение Коллекции.
+ */
 public class FileManager {
-    /**
-     * Класс, который отвечает за загрузку и сохранение StructureStorage, в остальное время спокойно спит
-     */
+
     private static final XmlMapper mapper = XmlMapper.builder().findAndAddModules().build();
 
+    /**
+     * Сохраняет коллекцию, создавая файл если его нет.
+     */
     public static boolean saveCollection() {
         String toWrite;
         try {
@@ -38,14 +41,12 @@ public class FileManager {
         }
     }
 
+    /**
+     * Загружает коллекцию из файла. В случе nullpointer'а в пути - вернёт пустой Стек.
+     */
     public static Stack<Flat> loadCollection() {
         try {
             Stack<Flat> loaded = null;
-            try {
-                new File(Context.getPath()).createNewFile();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex.getMessage());
-            }
             mapper.registerModule(new JavaTimeModule());
             try {
                 loaded = mapper.readValue(new File(Context.getPath()), new TypeReference<Stack<Flat>>() {
@@ -59,7 +60,6 @@ public class FileManager {
             Flat.finishLoadingIds();
             return loaded;
         } catch (NullPointerException e) {
-
             return new Stack<>();
 
         }

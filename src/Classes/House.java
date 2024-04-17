@@ -2,12 +2,15 @@ package Classes;
 
 import java.util.Objects;
 
+/**
+ * Дом. Нужен по ТЗ для Flat.
+ */
 public class House {
+
     /**
-     * Дом. Нужен по ТЗ для Flat.
+     * Для jackson. Не стоит использовать в других случаях
      */
     House() {
-
     }
 
     public House(String name, int year, long numberOfFlatsOnFloor, Integer numberOfLifts) {
@@ -55,10 +58,6 @@ public class House {
 
     public Integer getNumberOfLifts() {
         return numberOfLifts;
-    }
-
-    private static class HouseStorage {
-
     }
 
     private String name; //Поле может быть null

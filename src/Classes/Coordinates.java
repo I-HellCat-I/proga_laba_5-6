@@ -2,15 +2,19 @@ package Classes;
 
 import com.fasterxml.jackson.core.SerializableString;
 
+/**
+ * Координаты. Довольно странные. Содержат в себе float x и Integer y.
+ * Больше сказать нечего
+ */
 public class Coordinates {
-    /**
-     * Координаты. Довольно странные. Больше сказать нечего
-     */
+
     private float x; //Значение поля должно быть больше -146
     private Integer y; //Максимальное значение поля: 185, Поле не может быть null
 
+    /**
+     * Для jackson. Не стоит использовать в других случаях
+     */
     Coordinates() {
-
     }
 
     public Coordinates(float x, Integer y) {
