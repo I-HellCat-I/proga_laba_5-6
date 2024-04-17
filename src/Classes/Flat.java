@@ -9,6 +9,10 @@ import java.time.ZonedDateTime;
 import java.util.*;
 
 public class Flat implements Comparable<Flat> {
+    /**
+     * Квартира из ТЗ.
+     * Сравнивается между собой по именам без учёта регистра.
+     */
     private final Integer id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
@@ -24,11 +28,15 @@ public class Flat implements Comparable<Flat> {
     public Flat(boolean b) { // Used for testing purposes
         this("2", new Coordinates(0.1F, 2), 0.2, 3, Furnish.NONE, View.TERRIBLE, Transport.NONE, new House("4", 5, 6, 7));
     }
-    Flat(){
+
+    Flat() {
         id = null;
     }
 
     private static class IdGenerator {
+        /**
+         * Генератор Id для Flat'ов. В случае загрузки файла, загруженные Id не будет использовать для выдачи новым Flat'ам
+         */
         private static int next_id = 1;
         private static ArrayDeque<Integer> missingIds = new ArrayDeque<>();
         private static HashSet<Integer> loadedIds = new HashSet<>();
@@ -99,14 +107,28 @@ public class Flat implements Comparable<Flat> {
     }
 
     private void checkIfRight(String name, Coordinates coordinates, double area, Integer numberOfRooms, Furnish furnish, View view, Transport transport, House house) {
-        if (area < 0) throw new IllegalArgumentException("Значение area должно быть больше 0");
-        if (numberOfRooms < 0) throw new IllegalArgumentException("Значение numberOfRooms должно быть больше 0");
-        if (coordinates == null) throw new NullPointerException("coordinates не может быть null");
+        checkArea(area);
+        checkNumberOfRooms(numberOfRooms);
+        checkName(name);
         if (furnish == null) throw new NullPointerException("furnish не может быть null");
         if (view == null) throw new NullPointerException("View не может быть null");
         if (transport == null) throw new NullPointerException("Transport не может быть null");
         if (house == null) throw new NullPointerException("House не может быть null");
+        if (coordinates == null) throw new NullPointerException("coordinates не может быть null");
     }
+
+    public static void checkArea(double area) {
+        if (area < 0) throw new IllegalArgumentException("Значение area должно быть больше 0");
+    }
+
+    public static void checkNumberOfRooms(Integer numberOfRooms) {
+        if (numberOfRooms < 0) throw new IllegalArgumentException("Значение numberOfRooms должно быть больше 0");
+    }
+
+    public static void checkName(String name) {
+        if (name == null) throw new NullPointerException("Значение name не должно быть null");
+    }
+
 
     public final Integer getId() {
         return id;
@@ -123,7 +145,7 @@ public class Flat implements Comparable<Flat> {
     @Override
     public int compareTo(Flat o) {
         return String.CASE_INSENSITIVE_ORDER.compare(this.name, o.name);
-    } // todo: mb there is a better way to compare
+    }
 
     public static void clearIndicator() {
         IdGenerator.clear();
@@ -210,14 +232,14 @@ public class Flat implements Comparable<Flat> {
                 "\t\t<View>" + view + "</View>\n" +
                 "\t\t<Transport>" + transport + "</Transport>\n" +
                 house + "\n" +
-                "\t</Flat>";
+                "\t</Flat>\n";
     }
 
-    void addLoadedId(){
+    void addLoadedId() {
         IdGenerator.onPartlyLoaded(this.id);
     }
 
-    static void finishLoadingIds(){
+    static void finishLoadingIds() {
         IdGenerator.onFullyLoaded();
     }
 }

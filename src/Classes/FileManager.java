@@ -1,11 +1,7 @@
 package Classes;
 
-import Classes.Context;
-import Classes.Flat;
-import Classes.StructureStorage;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
@@ -13,6 +9,9 @@ import java.io.*;
 import java.util.Stack;
 
 public class FileManager {
+    /**
+     * Класс, который отвечает за загрузку и сохранение StructureStorage, в остальное время спокойно спит
+     */
     private static final XmlMapper mapper = XmlMapper.builder().findAndAddModules().build();
 
     public static boolean saveCollection() {
@@ -22,7 +21,7 @@ public class FileManager {
         } catch (JsonProcessingException e) {
             return false;
         }
-        try (PrintWriter pw = new PrintWriter(Context.getPathVar())) {
+        try (PrintWriter pw = new PrintWriter(Context.getPath())) {
             pw.write(toWrite);
             return true;
         } catch (FileNotFoundException e) {
@@ -34,13 +33,15 @@ public class FileManager {
         Stack<Flat> loaded = null;
         mapper.registerModule(new JavaTimeModule());
         try {
-            loaded = mapper.readValue(new File(Context.getPathVar()), new TypeReference<Stack<Flat>>() {});
-            for (Flat f: loaded){
+            loaded = mapper.readValue(new File(Context.getPath()), new TypeReference<Stack<Flat>>() {
+            });
+            for (Flat f : loaded) {
                 f.addLoadedId();
             }
         } catch (Exception e) {
             System.out.println(e);
         }
+        Flat.finishLoadingIds();
         return loaded;
     }
 }

@@ -3,6 +3,8 @@ package CommandExecution.Commands;
 import Classes.Context;
 import CommandExecution.Command;
 
+import java.util.EmptyStackException;
+
 public class CommandRemoveLast extends Command {
 
     public CommandRemoveLast(String[] args) {
@@ -11,7 +13,11 @@ public class CommandRemoveLast extends Command {
 
     @Override
     public String execute() {
-        Context.getStructureStorage().removeLastFlat();
+        try {
+            Context.getStructureStorage().removeLastFlat();
+        } catch (EmptyStackException e){
+            return "Стэк пуст, ничего не удалено";
+        }
         return "Ok";
     }
 

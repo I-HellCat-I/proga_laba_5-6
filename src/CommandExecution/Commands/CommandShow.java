@@ -13,6 +13,9 @@ public class CommandShow extends Command {
     public String execute() {
         StringBuilder ans = new StringBuilder();
         Context.getStructureStorage().getCollection().forEach(ans::append);
+        if (ans.isEmpty()){
+            ans.append("Пусто");
+        }
         return ans.toString();
     }
 

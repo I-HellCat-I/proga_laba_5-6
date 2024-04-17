@@ -1,11 +1,23 @@
 package Classes;
 
+import java.lang.ref.Cleaner;
 import java.time.ZonedDateTime;
 
 public final class Context {
+    /**
+     * Общий контекст, содержит ссылки на переменные, используемые в разных частях программы, ибо мне лень их передавать
+     **/
     private static final StructureStorage structureStorage = new StructureStorage();
+
+    static {
+        Runtime.getRuntime().addShutdownHook(new Thread(structureStorage.getOnCleanRunnable()));
+        Cleaner cl = Cleaner.create();
+        cl.register(structureStorage, structureStorage.getOnCleanRunnable());
+    }
+
     private static final String pathVar = "FlatsFilePath";
     private static int maxRecursionDepth = 100;
+    private static boolean exitCommandUsed = false;
 
     static {
         structureStorage.load();
@@ -21,14 +33,23 @@ public final class Context {
         return initDate;
     }
 
-    public static String getPathVar() {
-        return pathVar;
+    public static String getPath() {
+        return System.getenv(pathVar);
     }
 
     public static int getMaxRecursionDepth() {
         return maxRecursionDepth;
     }
+
     public static void setMaxRecursionDepth(int recursionDepth) {
         maxRecursionDepth = recursionDepth;
+    }
+
+    public static void setExitCommandUsed() {
+        exitCommandUsed = true;
+    }
+
+    public static boolean getExitCommandUsed() {
+        return exitCommandUsed;
     }
 }

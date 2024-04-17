@@ -11,17 +11,17 @@ import java.util.Objects;
 import java.util.Scanner;
 import java.util.Stack;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        Context.getInitDate();
+        //TIP О чём тут можно говорить?
+        Context.getInitDate(); // Инициализирует Контекст и его содержимое
         Interactor interactor = new Interactor();
         String input = "";
         Scanner scanner = new Scanner(System.in);
-        while (!Objects.equals(input, "exit")){
-            input = scanner.next();
-            interactor.processInput(input);
+        while (!Objects.equals(input, "exit")) {
+            input = scanner.nextLine();
+            if (!Objects.equals(input, "")) interactor.masterProcessInput(input);
+
         }
     }
 }

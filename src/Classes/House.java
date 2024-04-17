@@ -3,19 +3,42 @@ package Classes;
 import java.util.Objects;
 
 public class House {
+    /**
+     * Дом. Нужен по ТЗ для Flat.
+     */
     House() {
 
     }
 
     public House(String name, int year, long numberOfFlatsOnFloor, Integer numberOfLifts) {
-        if (!(0 < year && year <= 630))
-            throw new IllegalArgumentException("Year должен быть между 0 и 630, а он: " + year);
-        if (numberOfFlatsOnFloor < 0) throw new IllegalArgumentException("numberOfFlatsOnFloor должен быть больше 0");
-        if (numberOfLifts < 0) throw new IllegalArgumentException("numberOfLifts должен быть больше 0");
+        checkVars(year, numberOfFlatsOnFloor, numberOfLifts);
         this.name = name;
         this.year = year;
         this.numberOfLifts = numberOfLifts;
         this.numberOfFlatsOnFloor = numberOfFlatsOnFloor;
+    }
+
+    public static void checkVars(int year, long numberOfFlatsOnFloor, Integer numberOfLifts) {
+        checkYear(year);
+        checkNumberOfLifts(numberOfLifts);
+        checkNumberOfFlatsOnFloor(numberOfFlatsOnFloor);
+    }
+
+    public static void checkYear(int year) {
+        if (!(0 < year && year <= 630))
+            throw new IllegalArgumentException("Year должен быть между 0 и 630, а он: " + year);
+    }
+
+    public static void checkNumberOfFlatsOnFloor(long numberOfFlatsOnFloor) {
+        if (numberOfFlatsOnFloor < 0) throw new IllegalArgumentException("numberOfFlatsOnFloor должен быть больше 0");
+    }
+
+    public static void checkNumberOfLifts(Integer numberOfLifts) {
+        if (numberOfLifts < 0) throw new IllegalArgumentException("numberOfLifts должен быть больше 0");
+    }
+
+    public static void checkName(String name) {
+        if (name == null) throw new NullPointerException("housename е должно быть null");
     }
 
     public String getName() {

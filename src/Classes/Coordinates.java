@@ -3,19 +3,34 @@ package Classes;
 import com.fasterxml.jackson.core.SerializableString;
 
 public class Coordinates {
+    /**
+     * Координаты. Довольно странные. Больше сказать нечего
+     */
     private float x; //Значение поля должно быть больше -146
     private Integer y; //Максимальное значение поля: 185, Поле не может быть null
 
-    Coordinates(){
+    Coordinates() {
 
     }
 
     public Coordinates(float x, Integer y) {
-        if (x <= -146) throw new IllegalArgumentException("x не может быть меньше чем -146");
-        if (y == null) throw new NullPointerException("y не дожно быть null");
-        if (y > 185) throw new IllegalArgumentException("y не может быть больше чем 185");
+        checkVars(x, y);
         this.x = x;
         this.y = y;
+    }
+
+    public static void checkVars(float x, Integer y) {
+        checkX(x);
+        checkY(y);
+    }
+
+    public static void checkX(float x) {
+        if (x <= -146) throw new IllegalArgumentException("x не может быть меньше чем -146");
+    }
+
+    public static void checkY(Integer y) {
+        if (y == null) throw new NullPointerException("y не дожно быть null");
+        if (y > 185) throw new IllegalArgumentException("y не может быть больше чем 185");
     }
 
     @Override
@@ -29,5 +44,13 @@ public class Coordinates {
 
     public Integer getY() {
         return y;
+    }
+
+    public static void checkX(String s) {
+        checkX(Float.parseFloat(s));
+    }
+
+    public static void checkY(String s) {
+        checkY(Integer.parseInt(s));
     }
 }

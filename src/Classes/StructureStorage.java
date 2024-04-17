@@ -1,10 +1,14 @@
 package Classes;
 
 import java.io.*;
+import java.lang.ref.Cleaner;
 import java.util.*;
 
 
-public class StructureStorage {
+public class StructureStorage implements Cleaner.Cleanable {
+    /**
+     * Класс, отвечающий за работу с коллекцией.
+     */
     protected static Stack<Flat> collection = new Stack<>();
 
     public synchronized void sort() {
@@ -12,17 +16,17 @@ public class StructureStorage {
     }
 
 
-    public void load() {
+    public void load() { // Запрашивает загрузку коллекции у файлового менеджера
         try {
             collection.addAll((Collection<? extends Flat>) FileManager.loadCollection());
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             // ignore
         }
     }
 
     public Stack<Flat> getCollection() {
         return collection;
-    }
+    } // очев
 
     public boolean removeFlatById(Integer id) {
         for (Flat flat : collection) {
@@ -93,4 +97,23 @@ public class StructureStorage {
         }
         return ans;
     }
+
+    @Override
+    public void clean() {
+        if (!Context.getExitCommandUsed()) {
+            FileManager.saveCollection();
+        }
+    }
+
+    public Runnable getOnCleanRunnable() {
+        return onCleanRunnable;
+    }
+
+
+    private final Runnable onCleanRunnable = new Runnable() {  // Прикол, благодаря которому, коллекция сохранится в случае неожиданностей (В т.ч. ctrl+c)
+        @Override
+        public void run() {
+            clean();
+        }
+    };
 }

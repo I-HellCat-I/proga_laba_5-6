@@ -9,7 +9,10 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class CommandManager {
-    static HashMap<String, Class<? extends Command>> commands = new HashMap<>();
+    /**
+     * Класс, отвечающий за обработку команд
+     */
+    static HashMap<String, Class<? extends Command>> commands = new HashMap<>(); // Хранит в себе команды
 
     static {
         addCommand("help", CommandHelp.class);
@@ -35,13 +38,13 @@ public class CommandManager {
         commands.put(s, f);
     }
 
-    public static String exec(String type, String[] args) { // Когда дойдёт до 6 лабы, мб сделаю очередь команд, пока это не особо нужно
+    public static String exec(String type, String[] args) {
         try {
             return (commands.get(type).getConstructor(String[].class)
                     .newInstance((Object) (args == null ? new String[]{""} : args))).execute();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
                  NoSuchMethodException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 

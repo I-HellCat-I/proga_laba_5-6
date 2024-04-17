@@ -13,10 +13,17 @@ public class CommandAdd extends Command {
 
     @Override
     public String execute() {
-        Flat toAdd = inputFlat(null);
-        if (toAdd != null) {
-            Context.getStructureStorage().addFlat(toAdd);
-            return "Ok";
+        try{
+            Flat toAdd = inputFlat(null);
+            if (toAdd != null) {
+                Context.getStructureStorage().addFlat(toAdd);
+                return "Ok";
+            }
+        } catch (NumberFormatException nfe){
+            return "Не рекомендую пропускать числа.";
+        }
+        catch (RuntimeException e){
+            return (e.getMessage() + " " + e.getClass());
         }
         return ("Что-то пошло не так, но что же?");
     }
