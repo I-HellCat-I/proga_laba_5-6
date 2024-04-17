@@ -39,7 +39,8 @@ public class Interactor {
     }
 
     /**
-     * Базовый обработчик ввода, скидывает обработанную команду менеждеру команд
+     * Базовый обработчик ввода, скидывает обработанную команду менеждеру команд.
+     * @param input вводимая строка
      */
     static void processInput(String input) {
         String[] words = input.trim().split(" ");
@@ -54,6 +55,9 @@ public class Interactor {
 
     /**
      * Читает и обрабатывает скрипты.
+     * @param filename очев
+     * @return То, что надо вывести
+     * @throws RuntimeException если глубина рекурсии превысит допустимый лимит, или если файлы будут вызывать друг друга, образуя цикл
      */
     public static String executeScript(String filename) {
         if (executingFilenames.contains(filename)) {
@@ -79,6 +83,11 @@ public class Interactor {
         return "Done.\n";
     }
 
+    /**
+     * Вводит квартиру из нынешнего сканнера
+     * @param toUpdate Квартира которую надо обновить. Если toUpdate = null вернёт новую квартиру
+     * @return null, если toUpdate не null, Flat, если toUpdate = null
+     */
     public static Flat inputFlat(Flat toUpdate) {
         String name = inputFoolProof("Введите название квартиры:", Flat::checkName, (a) -> {
             return a;
@@ -108,7 +117,13 @@ public class Interactor {
         return new Flat(name, coordinates, area, numberOfRooms, furnish, view, transport, house);
     }
 
-    public static <T extends Enum<T>> T inputEnumValue(Class<T> enumClass) { // Отдельный ввод для Enum'ов, т.к их проверка немного отличается
+    /**
+     * Отдельный ввод для Enum'ов, т.к их проверка немного отличается
+     * @param enumClass
+     * @return <T extends Enum<T>
+     * @param <T> Enum
+     */
+    public static <T extends Enum<T>> T inputEnumValue(Class<T> enumClass) { //
         while (true) {
             String toCheck = scanner.nextLine().toUpperCase();
             T[] constants = enumClass.getEnumConstants();
@@ -124,6 +139,16 @@ public class Interactor {
         }
     }
 
+    /**
+     * Ввод, обёрнутый в while-true.
+     * ПОЛЬЗОВАТЕЛЬ БУДЕТ В НЁМ, ПОКА НЕ ВВЕДЁТ ПРАВИЛЬНОЕ ЗНАЧЕНИЕ.
+     * @param inputPrompt Подсказка для пользователя, чтобы он понял, что надо вводить
+     * @param checker Consumer<T>, проверяет правильность вводимого значения
+     * @param converter Function<String, T> конвертирует ввод в то, что вам надо
+     * @param commaToDot Надо ли заменять точки на запятые
+     * @return T
+     * @param <T>
+     */
     public static <T> T inputFoolProof(String inputPrompt, Consumer<T> checker, Function<String, T> converter, boolean commaToDot) {
         // Ввод и проверка правильности значения
         int errorInRowCounter = 0;
