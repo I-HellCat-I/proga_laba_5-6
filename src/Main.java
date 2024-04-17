@@ -18,10 +18,10 @@ public class Main {
         Interactor interactor = new Interactor();
         String input = "";
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Путь, для сохранения коллекции: " + Context.getPath());
         while (!Objects.equals(input, "exit")) {
             input = scanner.nextLine();
             if (!Objects.equals(input, "")) interactor.masterProcessInput(input);
-
         }
     }
 }

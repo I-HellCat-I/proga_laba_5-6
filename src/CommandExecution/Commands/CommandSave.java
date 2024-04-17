@@ -3,6 +3,8 @@ package CommandExecution.Commands;
 import CommandExecution.Command;
 import Classes.FileManager;
 
+import java.util.Arrays;
+
 public class CommandSave extends Command {
     public CommandSave(String[] args) {
         super(args);
@@ -10,7 +12,12 @@ public class CommandSave extends Command {
 
     @Override
     public String execute() {
-        return FileManager.saveCollection() ? "Ok" : "Что-то пошло не так при сохранении";
+        try {
+            return FileManager.saveCollection() ? "Ok" : "Что-то пошло не так при сохранении";
+        } catch (NullPointerException e) {
+            System.out.println(Arrays.toString(e.getStackTrace()));
+            return "dsad";
+        }
     }
 
     @Override

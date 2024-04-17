@@ -15,7 +15,7 @@ public final class Context {
         cl.register(structureStorage, structureStorage.getOnCleanRunnable());
     }
 
-    private static final String pathVar = "FlatsFilePath";
+    private static final String pathVar = "HOME";
     private static int maxRecursionDepth = 100;
     private static boolean exitCommandUsed = false;
 
@@ -34,7 +34,7 @@ public final class Context {
     }
 
     public static String getPath() {
-        return System.getenv(pathVar);
+        return System.getenv(pathVar)+"/saved.xml";
     }
 
     public static int getMaxRecursionDepth() {
