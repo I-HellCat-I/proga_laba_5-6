@@ -14,14 +14,15 @@ import java.util.Scanner;
 import java.util.Stack;
 
 public class Main {
+    /**
+     * О чём тут можно говорить?
+     */
     public static void main(String[] args) {
-        //TIP О чём тут можно говорить?
         Context.getInitDate(); // Инициализирует Контекст и его содержимое
         Interactor interactor = new Interactor();
         String input = "";
         Scanner scanner = new Scanner(System.in);
         System.out.println("Путь, для сохранения коллекции: " + Context.getPath());
-
         while (!Objects.equals(input, "exit")) {
             input = scanner.nextLine();
             if (!Objects.equals(input, "")) interactor.masterProcessInput(input);
